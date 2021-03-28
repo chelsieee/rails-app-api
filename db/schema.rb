@@ -18,12 +18,12 @@ ActiveRecord::Schema.define(version: 2021_03_28_120909) do
   create_table "blogs", force: :cascade do |t|
     t.string "title"
     t.string "content"
-    t.bigint "users_id"
-    t.bigint "categories_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["categories_id"], name: "index_blogs_on_categories_id"
-    t.index ["users_id"], name: "index_blogs_on_users_id"
+    t.bigint "user_id"
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_blogs_on_category_id"
+    t.index ["user_id"], name: "index_blogs_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -35,6 +35,4 @@ ActiveRecord::Schema.define(version: 2021_03_28_120909) do
     t.string "password"
   end
 
-  add_foreign_key "blogs", "categories", column: "categories_id"
-  add_foreign_key "blogs", "users", column: "users_id"
 end
