@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
     resources :blogs
+    resources :categories
   end
 
 
