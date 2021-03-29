@@ -1,8 +1,5 @@
 class Api::UsersController < ApplicationController
-
-  def index
-    render json: User.all
-  end
+  # before_action :user_exists, except: [:create]
 
   def create
     user = User.create(user_params)
@@ -15,7 +12,12 @@ class Api::UsersController < ApplicationController
 
   def show
     puts params[:id]
-    render json: User.find(params[:id])
+    user = User.find(params[:id])
+    render json: {
+      user: {
+        username: user.username
+      }
+    }
   end
 
   def update
