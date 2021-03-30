@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  # before_action :user_exists
+  before_action :user_exists
 
   def encode_token user_id
     JWT.encode user_id, nil, 'none'
@@ -7,10 +7,12 @@ class ApplicationController < ActionController::API
 
   def decode_token
     auth_token = request.headers['token']
+    # p auth_token
     if auth_token
-      p auth_token
       begin
-        JWT.decode auth_token,nil, 'none'
+        decoded = JWT.decode auth_token, nil, false
+        #print the decoded user id that has been encoded
+        p decoded
       rescue StandardError
         p 'NIL'
         nil
@@ -23,6 +25,9 @@ class ApplicationController < ActionController::API
     p "valid"
     p valid
     if valid
+      params[:loginUser_id] = valid[0]
+      p "params currentUserId"
+      p params[:loginUser_id]
       true
     else
       render json: { message: 'Unauthorised' }, status: :unauthorized

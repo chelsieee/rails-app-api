@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Api::CategoriesController < ApplicationController
+  before_action :user_exists, except: [:index]
 
   def index
     render json: Category.all

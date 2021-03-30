@@ -1,10 +1,14 @@
 class Api::UsersController < ApplicationController
-  # before_action :user_exists, except: [:create]
+  before_action :user_exists, except: [:create]
+
+  def index
+    render json: User.all.map{|user|{:id=>user.id, :username=>user.username}}
+  end
 
   def create
     user = User.create(user_params)
     if user.valid?
-      render json: user, status: 201
+      render json: user.username, status: 201
     else
       render json: { message: 'Unable to create user!'}, status: 500
     end
@@ -13,11 +17,10 @@ class Api::UsersController < ApplicationController
   def show
     puts params[:id]
     user = User.find(params[:id])
+    p user
     render json: {
-      user: {
         username: user.username
       }
-    }
   end
 
   def update
@@ -31,7 +34,7 @@ class Api::UsersController < ApplicationController
 
 
 def user_params
-  params.require(:user).permit(:username, :password)
+  params.permit(:username, :password)
 end
 
 end
