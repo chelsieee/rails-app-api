@@ -2,11 +2,12 @@ class Api::AuthController < ApplicationController
   before_action :user_exists, except: [:login]
 
   def login
-    p params[:user][:username]
-    user = User.find_by(username: params[:user][:username])
+    p params[:username]
+    user = User.find_by(username: params[:username])
 
-    if user&.authenticate(params[:user][:password])
+    if user&.authenticate(params[:password])
       token = encode_token(user.id)
+
       render json: {
         user: {
           id: user.id,
