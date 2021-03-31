@@ -7,13 +7,33 @@ module Api
     def index
       p 'index'
       p params
-      render json: Blog.all
+      render json: Blog.joins(:user, :category).all.map{|blogs|{
+        title: blogs.title,
+        content: blogs.content,
+        author: blogs.user.username,
+        category: blogs.category.tag,
+        createAt:blogs.created_at}
+      }
+    end
+
+    def myblog
+      myblog = Blog.joins(:user, :category).where(user_id: params[:loginUser_id])
+      response = myblog.map{ |blog| {
+          title: blog.title,
+          content: blog.content,
+          author: blog.user.username,
+          category: blog.category.tag,
+          createAt:blog.created_at
+      }
+      }
+      render json: response, status: :ok
     end
 
     def create
       puts params[:title]
       puts params[:content]
       puts params[:categoryId]
+      puts params[:loginUser_id]
 
       blog = Blog.create(
         title: params[:title],
