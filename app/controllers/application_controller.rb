@@ -7,12 +7,9 @@ class ApplicationController < ActionController::API
 
   def decode_token
     auth_token = request.headers['token']
-    # p auth_token
     if auth_token
       begin
         decoded = JWT.decode auth_token, nil, false
-        #print the decoded user id that has been encoded
-        p decoded
       rescue StandardError
         p 'NIL'
         nil
@@ -22,11 +19,9 @@ class ApplicationController < ActionController::API
 
   def user_exists
     valid = decode_token
-    p "valid"
-    p valid
     if valid
       params[:loginUser_id] = valid[0]
-      p "params currentUserId"
+      p "----currentUserId-----"
       p params[:loginUser_id]
       true
     else
@@ -36,3 +31,6 @@ class ApplicationController < ActionController::API
 
 
 end
+
+
+
