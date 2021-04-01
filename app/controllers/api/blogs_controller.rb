@@ -5,31 +5,33 @@ module Api
     before_action :user_exists, except: [:index]
 
     def index
-      p 'index'
-      p params
-      render json: Blog.joins(:user, :category).all.map{|blogs|{
+      render json: Blog.joins(:user, :category).all.map { |blogs| 
+        {
+        id: blogs.id,
         title: blogs.title,
         content: blogs.content,
         author: blogs.user.username,
         category: blogs.category.tag,
-        createAt:blogs.created_at}
+        createAt: blogs.created_at }
       }
     end
 
     def myblog
       myblog = Blog.joins(:user, :category).where(user_id: params[:loginUser_id])
-      response = myblog.map{ |blog| {
-          title: blog.title,
-          content: blog.content,
-          author: blog.user.username,
-          category: blog.category.tag,
-          createAt:blog.created_at
-      }
+      response = myblog.map { |blog| 
+       {
+        title: blog.title,
+        content: blog.content,
+        author: blog.user.username,
+        category: blog.category.tag,
+        createAt: blog.created_at
+        }
       }
       render json: response, status: :ok
     end
 
     def create
+      puts "-------create blogs-----"
       puts params[:title]
       puts params[:content]
       puts params[:categoryId]
@@ -64,7 +66,7 @@ module Api
         blog.update(
           title: params[:title],
           content: params[:content],
-          category_id: params[:categoryId]
+          category_id: params[:category_id]
         )
         render json: { message: 'Successfully updated blogs' }, status: 200
       else

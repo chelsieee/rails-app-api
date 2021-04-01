@@ -17,7 +17,6 @@ class Api::CategoriesController < ApplicationController
   end
 
   def show
-    puts params[:id]
     render json: Category.find(params[:id])
   end
 
