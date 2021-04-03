@@ -16,7 +16,7 @@ class Api::AuthController < ApplicationController
         token: token
       }
     else
-      render json: { massage: 'Invalid username or password' }, status: :not_found
+      render json: { message: 'Invalid username or password' }, status: :not_found
     end
   end
 end
