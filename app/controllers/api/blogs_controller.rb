@@ -33,11 +33,6 @@ module Api
 
     def create
       puts "-------create blogs-----"
-      puts params[:title]
-      puts params[:content]
-      puts params[:categoryId]
-      puts params[:loginUser_id]
-
       blog = Blog.create(
         title: params[:title],
         content: params[:content],
