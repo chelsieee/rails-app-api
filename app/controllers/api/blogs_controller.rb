@@ -19,11 +19,12 @@ module Api
     def myblog
       myblog = Blog.joins(:user, :category).where(user_id: params[:loginUser_id])
       response = myblog.map { |blog| 
-       {
+       {id: blog.id,
         title: blog.title,
         content: blog.content,
         author: blog.user.username,
         category: blog.category.tag,
+        categoryId: blog.category_id,
         createAt: blog.created_at
         }
       }
